@@ -36,10 +36,13 @@ app.post('/signup', (req, res) => {
     let userCreate = new authModel({ email: req.body.email, password: req.body.password })
     userCreate.save()
         .then((response) => {
-            console.log(response, 'response Success')
+            // console.log(response, 'response Success')
+            res.status(200).send({ result: response, message: "Data Stored Successfully" })
+
         })
         .catch((err) => {
-            console.log(err, 'Error')
+            // console.log(err, 'Error')
+            res.status(400).send({ result: err.message, message: "Data Not Stored Successfully" })
         })
 
 })
