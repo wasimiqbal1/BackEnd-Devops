@@ -4,6 +4,8 @@ const bd = require('body-parser')
 const app = express();
 const mongoose = require('mongoose');
 const port = 5000;
+let authModel = require('./authschema');
+const { response } = require('express');
 
 app.use(cors());
 app.use(bd.urlencoded({
@@ -30,7 +32,16 @@ app.get('/', (req, res) => {
 
 app.post('/signup', (req, res) => {
     // res.send('Signup API');
-    console.log(req.body.post.postName)
+
+    let userCreate = new authModel({ email: req.body.email, password: req.body.password })
+    userCreate.save()
+        .then((response) => {
+            console.log(response, 'response Success')
+        })
+        .catch((err) => {
+            console.log(err, 'Error')
+        })
+
 })
 
 
