@@ -3,6 +3,7 @@ const cors = require('cors')
 const bd = require('body-parser')
 const app = express();
 const mongoose = require('mongoose');
+const brcypt = require("bcryptjs")
 const port = 5000;
 let authModel = require('./authschema');
 const { response } = require('express');
@@ -38,22 +39,20 @@ app.post('/signup', async(req, res) => {
     if (checkUser) {
         res.status(200).send({ result: checkUser, message: "Email Already Registered" })
     } else {
-        res.send({ message: "Yes You Can Join us" })
+        var hashPass = await brcypt.hash(req.body.password, 12);
+        let userCreate = new authModel({ email: req.body.email, password: brcypt.hashPass })
+        userCreate.save()
+            .then((response) => {
+                // console.log(response, 'response Success')
+                res.status(200).send({ result: response, message: "User Signup Successfully" })
+
+            })
+            .catch((err) => {
+                // console.log(err, 'Error')
+                res.status(400).send({ result: err.message, message: "Data Not Stored Successfully" })
+            })
+
     }
-
-
-    // let userCreate = new authModel({ email: req.body.email, password: req.body.password })
-    // userCreate.save()
-    //     .then((response) => {
-    //         // console.log(response, 'response Success')
-    //         res.status(200).send({ result: response, message: "Data Stored Successfully" })
-
-    //     })
-    //     .catch((err) => {
-    //         // console.log(err, 'Error')
-    //         res.status(400).send({ result: err.message, message: "Data Not Stored Successfully" })
-    //     })
-
 })
 
 
