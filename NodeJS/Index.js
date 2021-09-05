@@ -13,7 +13,7 @@ app.use(bd.urlencoded({
 }))
 app.use(bd.json());
 
-mongoose.connect('mongodb+srv://wasim:P@ss1234@cluster0.flcnx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://wasim:P@ss1234@cluster0.a8hoi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -22,6 +22,7 @@ mongoose.connect('mongodb+srv://wasim:P@ss1234@cluster0.flcnx.mongodb.net/myFirs
 mongoose.connection.on("connected", () => {
     console.log("Datebase Connected")
 })
+
 mongoose.connection.on("error", () => {
     console.log("Datebase Not Connected")
 })
